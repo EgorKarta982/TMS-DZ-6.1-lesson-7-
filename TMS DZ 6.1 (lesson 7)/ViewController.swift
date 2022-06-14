@@ -7,13 +7,15 @@ class ViewController: UIViewController {
     
     //MARK: - IBOutlets
     @IBOutlet var outputLabel: UILabel!
+    @IBOutlet var goButton: UIButton!
     
     //MARK: - var/let
     
-    let squareView = UIView()
+   // let squareView = UIView()
     var originSquareX:CGFloat = 0
     var originSquareY:CGFloat = 0
-    var sideSquare: CGFloat = 200
+    var sideSquare: CGFloat = 100
+  
     
     let colorSquareLabel = UILabel()
     var colorSqayreOriginX: CGFloat = 0
@@ -21,6 +23,7 @@ class ViewController: UIViewController {
     var colorSquareLabelWidth:CGFloat = 20
     var colorSqureLabelHeith:CGFloat = 20
     
+   // var labelInSquare = UILabel()
     
     //MARK: - lifecycle func
     override func viewDidLoad() {
@@ -31,33 +34,73 @@ class ViewController: UIViewController {
     //MARK: - IBAction
     
     @IBAction func GoButtonPressed(_ sender: UIButton) {
-        createSquare()
+      addSquare()
     }
+    @IBAction func plusButtonPressed(_ sender: UIButton) {
+        plusButtonPressedFunc()
+    }
+    
+    @IBAction func minusButtonPressed(_ sender: UIButton) {
+        minusButtonPressedFunc()
+    }
+    
     
     
     //MARK: - flow funcs
     private func createSquare(){
-        self.squareView.frame = CGRect(x: originSquareX, y: originSquareY, width: sideSquare, height: sideSquare)
-        self.squareView.backgroundColor = .random
+        let squareView = UIView()
+        squareView.frame = CGRect(x: originSquareX, y: originSquareY, width: sideSquare, height: sideSquare)
+        squareView.backgroundColor = .random
         self.view.addSubview(squareView)
-        
-        self.outputLabel.frame = CGRect(x: originSquareX, y: originSquareY, width: sideSquare, height: sideSquare)
-        self.outputLabel.text = "\(self.squareView.backgroundColor!)"
-        self.outputLabel.numberOfLines = 0
-        self.outputLabel.textAlignment = .center
-        self.squareView.addSubview(outputLabel)
         
     }
     
-   // переписать функцию рандомного цвета, что бы модно было брать название цвета и выводить во вью
+    private func createLabel(){
+        let labelInSquare = UILabel()
+        labelInSquare.frame = CGRect(x: originSquareX, y: originSquareY, width: sideSquare, height: sideSquare)
+        labelInSquare.text = " test"//"\(squareView.backgroundColor!)"
+        labelInSquare.numberOfLines = 0
+        labelInSquare.textAlignment = .center
+        self.view.addSubview(labelInSquare)
+        
+    }
+    
+    private func canCreate() -> Bool {
+        if originSquareX + sideSquare > self.view.frame.width { return false}
+        if originSquareY + sideSquare > self.goButton.frame.origin.y {return false}
+        return true
+    }
+    
+    private func addSquare(){
+        if canCreate() {
+            createSquare()
+            createLabel()
+            self.originSquareX += self.sideSquare
+            self.addSquare()
+        } else if self.originSquareX + self.sideSquare > self.view.frame.width{
+            self.originSquareX = 0
+            self.originSquareY += self.sideSquare
+            self.addSquare()
+            
+        }
+    }
+    
+    private func plusButtonPressedFunc(){
+        self.sideSquare += 10
+        outputLabel.text = "side square size = \(self.sideSquare)"
+        return
+    }
+    
+    private func minusButtonPressedFunc(){
+        if sideSquare == 0 {return}
+        self.sideSquare -= 10
+        outputLabel.text = "side square size = \(self.sideSquare)"
+        return
+    }
+    
+    
+    // переписать функцию рандомного цвета, что бы модно было брать название цвета и выводить во вью
  
-//    private func findSizeColorLabel(x:CGFloat, y:CGFloat, side: CGFloat) ->(colorX:CGFloat, colorY:CGFloat, colorWitdh: CGFloat, colorHeith:CGFloat){
-//        let colorX = x + side / 2
-//        let colorY = y + side / 2
-//        let colorWidth = side / 2
-//        let colorHeith = side / 2
-//        return(colorX,colorY,colorWidth,colorHeith)
-//    }
     
 }
 //MARK: - extension
