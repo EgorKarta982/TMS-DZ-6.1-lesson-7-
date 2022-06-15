@@ -47,18 +47,12 @@ class ViewController: UIViewController {
     
     
     //MARK: - flow funcs
-    private func createSquare(){
-        let squareView = UIView()
-        squareView.frame = CGRect(x: originSquareX, y: originSquareY, width: sideSquare, height: sideSquare)
-        squareView.backgroundColor = .random
-        self.view.addSubview(squareView)
-        
-    }
     
     private func createLabel(){
         let labelInSquare = UILabel()
         labelInSquare.frame = CGRect(x: originSquareX, y: originSquareY, width: sideSquare, height: sideSquare)
-        labelInSquare.text = " test"//"\(squareView.backgroundColor!)"
+        labelInSquare.backgroundColor = .random
+        labelInSquare.text = labelInSquare.backgroundColor?.accessibilityName
         labelInSquare.numberOfLines = 0
         labelInSquare.textAlignment = .center
         self.view.addSubview(labelInSquare)
@@ -73,7 +67,6 @@ class ViewController: UIViewController {
     
     private func addSquare(){
         if canCreate() {
-            createSquare()
             createLabel()
             self.originSquareX += self.sideSquare
             self.addSquare()
@@ -83,6 +76,8 @@ class ViewController: UIViewController {
             self.addSquare()
             
         }
+        self.originSquareX = 0
+        self.originSquareY = 0
     }
     
     private func plusButtonPressedFunc(){
@@ -98,8 +93,7 @@ class ViewController: UIViewController {
         return
     }
     
-    
-    // переписать функцию рандомного цвета, что бы модно было брать название цвета и выводить во вью
+
  
     
 }
